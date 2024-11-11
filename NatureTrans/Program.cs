@@ -31,29 +31,38 @@ namespace NatureTrans
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
+            var importForm = ServiceProvider.GetRequiredService<ImportDataForm>();
+
             // Fetch LoginForm from ServiceProvider and run the application
-            var inventoryForm = ServiceProvider.GetRequiredService<InventoryForm>();
             var loginForm = ServiceProvider.GetRequiredService<LoginForm>();
-            Application.Run(inventoryForm);
+            Application.Run(importForm);
         }
         private static void ConfigureServices(ServiceCollection services)
         {
-            services.AddSingleton<NTContext>(); // lifetime of NTContext is singleton
+
+            services.AddTransient<NTContext>(); // lifetime of NTContext is singleton
 
             // Register your services here
-            services.AddTransient<LoginService>();
-            services.AddTransient<RegistrationService>();
-            services.AddTransient<InventoryService>();
+            services.AddScoped<LoginService>();
+            services.AddScoped<RegistrationService>();
+            services.AddScoped<InventoryService>();
+            services.AddScoped<OrderService>();
+            services.AddScoped<RecipeService>();
+            services.AddScoped<ProductionService>();
 
             // Register your forms
-            services.AddTransient<orderForm>();
-            services.AddTransient<InventoryForm>();
-            services.AddTransient<Workspace>();
-            services.AddTransient<RegistrationForm>();
-            services.AddTransient<LoginForm>();
-            services.AddTransient<UpdateInventoryForm>();
-            services.AddTransient<CategoryForm>();
-
+            services.AddScoped<orderForm>();
+            services.AddScoped<InventoryForm>();
+            services.AddScoped<Workspace>();
+            services.AddScoped<RegistrationForm>();
+            services.AddScoped<LoginForm>();
+            services.AddScoped<UpdateInventoryForm>();
+            services.AddScoped<CategoryForm>();
+            services.AddScoped<NewCommand>();
+            services.AddScoped<RecipeForm>();
+            services.AddScoped<FindRecipeForm>();
+            services.AddTransient<ProductionForm>();
+            services.AddScoped<ImportDataForm>();
         }
 
         [DllImport("kernel32.dll", SetLastError = true)]

@@ -34,6 +34,7 @@
             inv_delete_btn = new System.Windows.Forms.Button();
             label1 = new System.Windows.Forms.Label();
             linkLabel1 = new System.Windows.Forms.LinkLabel();
+            inv_po_lbl = new System.Windows.Forms.LinkLabel();
             ((System.ComponentModel.ISupportInitialize)inv_product_datagrid).BeginInit();
             SuspendLayout();
             // 
@@ -75,6 +76,7 @@
             inv_product_datagrid.Size = new System.Drawing.Size(980, 409);
             inv_product_datagrid.TabIndex = 11;
             inv_product_datagrid.CellContentClick += inv_product_datagrid_CellContentClick;
+            inv_product_datagrid.DoubleClick += inv_product_datagrid_DoubleClick;
             // 
             // inv_delete_btn
             // 
@@ -113,11 +115,23 @@
             linkLabel1.Text = "Catégories";
             linkLabel1.LinkClicked += linkLabel1_LinkClicked;
             // 
+            // inv_po_lbl
+            // 
+            inv_po_lbl.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
+            inv_po_lbl.AutoSize = true;
+            inv_po_lbl.Location = new System.Drawing.Point(819, 45);
+            inv_po_lbl.Name = "inv_po_lbl";
+            inv_po_lbl.Size = new System.Drawing.Size(92, 20);
+            inv_po_lbl.TabIndex = 15;
+            inv_po_lbl.TabStop = true;
+            inv_po_lbl.Text = "Commandes";
+            // 
             // InventoryForm
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             ClientSize = new System.Drawing.Size(1071, 645);
+            Controls.Add(inv_po_lbl);
             Controls.Add(linkLabel1);
             Controls.Add(label1);
             Controls.Add(inv_delete_btn);
@@ -139,5 +153,6 @@
         private System.Windows.Forms.Button inv_delete_btn;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.LinkLabel linkLabel1;
+        private System.Windows.Forms.LinkLabel inv_po_lbl;
     }
 }

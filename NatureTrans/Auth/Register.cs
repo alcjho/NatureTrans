@@ -2,6 +2,7 @@
 using System.Data.SqlClient;
 using System.Runtime.CompilerServices;
 using System;
+using NatureTrans.Interface;
 
 namespace NatureTrans.Auth
 {

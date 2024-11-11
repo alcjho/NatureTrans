@@ -134,6 +134,7 @@
             Controls.Add(username_txt);
             Name = "LoginForm";
             Text = "LoginForm";
+            Load += LoginForm_Load;
             ResumeLayout(false);
             PerformLayout();
         }

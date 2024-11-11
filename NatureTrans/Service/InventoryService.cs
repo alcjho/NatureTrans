@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Reflection;
 using System.Xml;
+using NatureTrans.utils;
 
 namespace NatureTrans.Service
 {
@@ -19,7 +20,21 @@ namespace NatureTrans.Service
             _context = context;
         }
 
-        public List<Product> getProductList(int startIndex, int pageSize)
+        
+
+        public List<Product> FilterProducts(string searchString, int startIndex = 0, int endIndex = 20)
+        {
+            var query = from product in _context.Products
+                        where !string.IsNullOrEmpty(searchString) && EF.Functions.Like(product.name, "%" + searchString + "%")
+                        select product;
+
+            // Apply pagination (optional, modify based on your implementation)
+            var filteredProducts = query.Skip(startIndex).Take(endIndex - startIndex);
+
+            return filteredProducts.ToList();   
+        }
+
+        public List<Product> GetProductList(int startIndex, int pageSize)
         {
             var query = from product in _context.Products
                         join category in _context.Categories on product.categoryId equals category.id
@@ -32,7 +47,47 @@ namespace NatureTrans.Service
             return productList;
         }
 
-        
+        public List<dynamic> GetProductWithCategory(int startIndex, int pageSize)
+        {
+            var query = from product in _context.Products
+                        join category in _context.Categories on product.categoryId equals category.id
+                        where category.active == true
+                        orderby product.id
+                        select new
+                        {
+                            id = product.id,
+                            name = product.name,
+                            categoryName = category.name
+                        }; 
+
+            query.Skip(startIndex).Take(pageSize - startIndex);
+
+            var productList = query.ToList<dynamic>();
+
+            return productList;
+        }
+
+        public List<dynamic> GetFilteredProductWithCategory(string searchString)
+        {
+            var query = from product in _context.Products
+                        join category in _context.Categories on product.categoryId equals category.id
+                        where !string.IsNullOrEmpty(searchString) 
+                            && EF.Functions.Like(product.name, "%" + searchString + "%")
+                            && category.active == true
+                        orderby product.id
+                        select new
+                        {
+                            id = product.id,
+                            name = product.name,
+                            categoryName = category.name
+                        }; 
+            
+            var productList = query.ToList<dynamic>();
+
+            return productList;
+        }
+
+
 
         public async Task<int> AddProduct(Product product)
         {
@@ -113,25 +168,29 @@ namespace NatureTrans.Service
         }
 
 
-        public Product getProductById(int id) 
+        public async Task<Product> getProductById(int id) 
         { 
-            return _context.Products.Find(id);
+            return await _context.Products.FindAsync(id);
+        }
+
+        public Category GetCategoryById(int id)
+        {
+            return _context.Categories.Find(id);
         }
 
 
-        public bool DeleteProductById(int id) 
+        public async Task<bool> DeleteProductById(int id) 
         {
-            var entityToDelete = _context.Products.Local.FirstOrDefault(x => x.id == id);
+            var entityToDelete = await _context.Products.FirstOrDefaultAsync(x => x.id == id);
             if (entityToDelete == null)
             {
                 entityToDelete = new Product { id = id };
                 _context.Attach(entityToDelete);
             }
             _context.Products.Remove(entityToDelete);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
 
             return true;
-
         }
 
         public List<Category> getCategoryList()
@@ -182,6 +241,52 @@ namespace NatureTrans.Service
 
             return true;
 
+        }
+
+        public bool UpdateInventory(PurchaseOrder purchase)
+        {
+            
+            Product product = _context.Products.FirstOrDefault(p => p.id == purchase.productId);
+            
+            if (product != null)
+            {
+                var quantity = purchase.quantity;
+                var subtotal = purchase.price * quantity;
+
+                product.quantity += quantity;
+                product.stock_value += subtotal;
+
+                this.UpdateProduct(product);
+                return true;
+            }
+            else 
+            { 
+                return false;
+            }
+        }
+
+        public bool RemoveFromInventory(PurchaseOrder purchase)
+        {
+
+            Product product = _context.Products.FirstOrDefault(p => p.id == purchase.productId);
+            
+
+            if (product != null && purchase.received == true)
+            {
+                var quantity = purchase.quantity;
+                var subtotal = purchase.price * quantity;
+
+                product.quantity -= quantity;
+                product.stock_value -= subtotal;
+
+                this.UpdateProduct(product);
+
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
     }

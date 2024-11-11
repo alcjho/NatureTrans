@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static NatureTrans.Data.Product;
 
 namespace NatureTrans.Data
 {
@@ -22,8 +23,23 @@ namespace NatureTrans.Data
         public double price { get; set; }
         public int quantity { get; set; }
         public string comment { get; set; }
+        public bool received { get; set; } = false;
         public User User { get; set; }
         public Provider Provider { get; set; }
         public Product Product { get; set; }
+
+        public override string ToString()
+        {
+            return
+                $"id: {id}, " +
+                $"userId: {userId} " +
+                $"productId: {productId}, " +
+                $"providerId: {providerId}, " +
+                $"quantity: {quantity}, " +
+                $"price: {price} " +
+                $"comment: {comment} " +
+                $"createdAt: {createdAt} " +
+                $"updatedAt: {updatedAt} ";
+        }
     }
 }

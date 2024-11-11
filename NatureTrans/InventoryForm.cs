@@ -2,6 +2,7 @@
 using NatureTrans.Data;
 using NatureTrans.Migrations;
 using NatureTrans.Service;
+using NatureTrans.utils;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -32,52 +33,15 @@ namespace NatureTrans
             _product = new Product();
         }
 
-        public DataTable GetDataTableFromEntity<T>(T entity)
-        {
-            DataTable dataTable = new DataTable(typeof(T).Name);
-            string[] excludedColumns = { "description", "Category", "quantity" };
-
-            foreach (var property in typeof(T).GetProperties().Where(p => !excludedColumns.Contains(p.Name)))
-            {
-                if (property.CanRead)
-                    
-                {
-
-                    Type underlyingType = Nullable.GetUnderlyingType(property.PropertyType);
-                    DataColumn column = new DataColumn(property.Name, underlyingType ?? property.PropertyType);
-                    dataTable.Columns.Add(column);
-                }
-            }
-
-            var row = dataTable.NewRow();
-            foreach (var property in typeof(T).GetProperties())
-            {
-                if (property.CanRead)
-                {
-                    string columnName = property.Name;
-                    object value = property?.GetValue(entity);
-
-                    if (value != null && dataTable.Columns.Contains(columnName)) // Check if column exists
-                    {
-                        row[columnName] = value ?? DBNull.Value;
-                    }
-
-                }
-            }
-
-            dataTable.Rows.Add(row);
-            return dataTable;
-        }
-
-
         private void UpdateProducts()
         {
-            DataTable dataTable = GetDataTableFromEntity<Product>(_product);
-            List<Product> products = _inventory.getProductList(0, 100);
+            string[] excludedColumns = { "User", "Provider", "Product" };
+            DataTable dataTable = Common.GetDataTableFromEntity<Product>(_product, excludedColumns);
+            List<Product> products = _inventory.GetProductList(0, 100);
 
             foreach (Product product in products)
             {
-                DataRow row = GetDataTableFromEntity(product).Rows[0]; // Get the first row from the DataTable
+                DataRow row = Common.GetDataTableFromEntity(product).Rows[0]; // Get the first row from the DataTable
                 dataTable.ImportRow(row);
             }
 
@@ -162,7 +126,7 @@ namespace NatureTrans
             if (val == null || val.Length == 0) return;
             int productId = int.Parse(val);
 
-            var product = _inventory.getProductById(productId);
+            var product = await _inventory.getProductById(productId);
             if (product == null) return;
 
             _updateInventoryForm.productId = productId;
@@ -185,7 +149,7 @@ namespace NatureTrans
         }
 
 
-        private void inv_delete_btn_Click(object sender, EventArgs e)
+        private async void inv_delete_btn_Click(object sender, EventArgs e)
         {
             var val = this.inv_product_datagrid.SelectedRows[0].Cells[0].Value.ToString();
             if (val == null || val.Length == 0) return;
@@ -194,7 +158,7 @@ namespace NatureTrans
 
             if (result == DialogResult.Yes)
             {
-                _inventory.DeleteProductById(productId);
+                await _inventory.DeleteProductById(productId);
             }
 
 
@@ -210,6 +174,11 @@ namespace NatureTrans
         {
             _categoryForm.ClearForm();
             _categoryForm.ShowDialog();
+        }
+
+        private void inv_product_datagrid_DoubleClick(object sender, EventArgs e)
+        {
+            inv_update_btn.PerformClick();
         }
     }
 }

@@ -51,25 +51,25 @@ namespace NatureTrans.Migrations
                         {
                             id = 1,
                             active = true,
-                            createdAt = new DateTime(2024, 10, 14, 15, 29, 31, 618, DateTimeKind.Local).AddTicks(2525),
+                            createdAt = new DateTime(2024, 11, 11, 13, 55, 50, 848, DateTimeKind.Local).AddTicks(9202),
                             name = "Matières premières",
-                            updatedAt = new DateTime(2024, 10, 14, 15, 29, 31, 618, DateTimeKind.Local).AddTicks(2577)
+                            updatedAt = new DateTime(2024, 11, 11, 13, 55, 50, 848, DateTimeKind.Local).AddTicks(9258)
                         },
                         new
                         {
                             id = 2,
                             active = true,
-                            createdAt = new DateTime(2024, 10, 14, 15, 29, 31, 618, DateTimeKind.Local).AddTicks(2579),
+                            createdAt = new DateTime(2024, 11, 11, 13, 55, 50, 848, DateTimeKind.Local).AddTicks(9261),
                             name = "Ingredients",
-                            updatedAt = new DateTime(2024, 10, 14, 15, 29, 31, 618, DateTimeKind.Local).AddTicks(2580)
+                            updatedAt = new DateTime(2024, 11, 11, 13, 55, 50, 848, DateTimeKind.Local).AddTicks(9262)
                         },
                         new
                         {
                             id = 3,
                             active = true,
-                            createdAt = new DateTime(2024, 10, 14, 15, 29, 31, 618, DateTimeKind.Local).AddTicks(2582),
+                            createdAt = new DateTime(2024, 11, 11, 13, 55, 50, 848, DateTimeKind.Local).AddTicks(9263),
                             name = "Outils",
-                            updatedAt = new DateTime(2024, 10, 14, 15, 29, 31, 618, DateTimeKind.Local).AddTicks(2583)
+                            updatedAt = new DateTime(2024, 11, 11, 13, 55, 50, 848, DateTimeKind.Local).AddTicks(9264)
                         });
                 });
 
@@ -119,13 +119,86 @@ namespace NatureTrans.Migrations
                         {
                             id = 1,
                             categoryId = 1,
-                            createdAt = new DateTime(2024, 10, 14, 15, 29, 31, 618, DateTimeKind.Local).AddTicks(2742),
+                            createdAt = new DateTime(2024, 11, 11, 13, 55, 50, 848, DateTimeKind.Local).AddTicks(9419),
                             description = "Sac de 50Kg",
                             name = "Sucre Blanc",
                             prodState = "Good",
                             quantity = 0,
                             reference = "",
-                            updatedAt = new DateTime(2024, 10, 14, 15, 29, 31, 618, DateTimeKind.Local).AddTicks(2743)
+                            updatedAt = new DateTime(2024, 11, 11, 13, 55, 50, 848, DateTimeKind.Local).AddTicks(9420)
+                        });
+                });
+
+            modelBuilder.Entity("NatureTrans.Data.Production", b =>
+                {
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"));
+
+                    b.Property<DateTime>("createdAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("name")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<double>("price")
+                        .HasColumnType("float");
+
+                    b.Property<double>("prod_quantity")
+                        .HasColumnType("float");
+
+                    b.Property<int>("prod_state")
+                        .HasColumnType("int");
+
+                    b.Property<string>("prod_unit")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<double>("production_value")
+                        .HasColumnType("float");
+
+                    b.Property<int?>("receipeId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("recipeId")
+                        .HasColumnType("int");
+
+                    b.Property<double>("stock_value")
+                        .HasColumnType("float");
+
+                    b.Property<DateTime>("updatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("id");
+
+                    b.HasIndex("name")
+                        .IsUnique()
+                        .HasFilter("[name] IS NOT NULL");
+
+                    b.HasIndex("recipeId");
+
+                    b.ToTable("Productions");
+
+                    b.HasData(
+                        new
+                        {
+                            id = 1,
+                            createdAt = new DateTime(2024, 11, 11, 13, 55, 50, 848, DateTimeKind.Local).AddTicks(9455),
+                            description = "Production de 20 gallons de sirop, saveur cerise",
+                            name = "Gallon de sirop cerise",
+                            price = 20.800000000000001,
+                            prod_quantity = 100.0,
+                            prod_state = 0,
+                            prod_unit = "gallon",
+                            production_value = 0.0,
+                            recipeId = 1,
+                            stock_value = 0.0,
+                            updatedAt = new DateTime(2024, 11, 11, 13, 55, 50, 848, DateTimeKind.Local).AddTicks(9456)
                         });
                 });
 
@@ -162,18 +235,18 @@ namespace NatureTrans.Migrations
                             id = 1,
                             active = true,
                             address = "Autoroute de delmas 2333, Port-au-prince,Haiti",
-                            createdAt = new DateTime(2024, 10, 14, 15, 29, 31, 618, DateTimeKind.Local).AddTicks(2721),
+                            createdAt = new DateTime(2024, 11, 11, 13, 55, 50, 848, DateTimeKind.Local).AddTicks(9395),
                             name = "ACRA",
-                            updatedAt = new DateTime(2024, 10, 14, 15, 29, 31, 618, DateTimeKind.Local).AddTicks(2722)
+                            updatedAt = new DateTime(2024, 11, 11, 13, 55, 50, 848, DateTimeKind.Local).AddTicks(9397)
                         },
                         new
                         {
                             id = 2,
                             active = true,
                             address = "Autoroute de delmas 1111, Port-au-prince,Haiti",
-                            createdAt = new DateTime(2024, 10, 14, 15, 29, 31, 618, DateTimeKind.Local).AddTicks(2727),
+                            createdAt = new DateTime(2024, 11, 11, 13, 55, 50, 848, DateTimeKind.Local).AddTicks(9403),
                             name = "Delimart",
-                            updatedAt = new DateTime(2024, 10, 14, 15, 29, 31, 618, DateTimeKind.Local).AddTicks(2728)
+                            updatedAt = new DateTime(2024, 11, 11, 13, 55, 50, 848, DateTimeKind.Local).AddTicks(9404)
                         });
                 });
 
@@ -203,6 +276,9 @@ namespace NatureTrans.Migrations
                     b.Property<int>("quantity")
                         .HasColumnType("int");
 
+                    b.Property<bool>("received")
+                        .HasColumnType("bit");
+
                     b.Property<DateTime>("updatedAt")
                         .HasColumnType("datetime2");
 
@@ -218,6 +294,82 @@ namespace NatureTrans.Migrations
                     b.HasIndex("userId");
 
                     b.ToTable("PurchaseOrders");
+                });
+
+            modelBuilder.Entity("NatureTrans.Data.Recipe", b =>
+                {
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"));
+
+                    b.Property<DateTime>("createdAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("name")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime>("updatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("id");
+
+                    b.HasIndex("name")
+                        .IsUnique()
+                        .HasFilter("[name] IS NOT NULL");
+
+                    b.ToTable("Recipes");
+
+                    b.HasData(
+                        new
+                        {
+                            id = 1,
+                            createdAt = new DateTime(2024, 11, 11, 13, 55, 50, 848, DateTimeKind.Local).AddTicks(9438),
+                            description = "12 grammes de sucre blanc, 1 gallon d'eau, 2 sacs de cerise",
+                            name = "Sirop saveur cerise",
+                            updatedAt = new DateTime(2024, 11, 11, 13, 55, 50, 848, DateTimeKind.Local).AddTicks(9439)
+                        });
+                });
+
+            modelBuilder.Entity("NatureTrans.Data.RecipeIngredient", b =>
+                {
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"));
+
+                    b.Property<DateTime>("createdAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<double>("ingredient_qty")
+                        .HasColumnType("float");
+
+                    b.Property<string>("ingredient_unit")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("note")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("productId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("recipeId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("updatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("id");
+
+                    b.HasIndex("recipeId");
+
+                    b.ToTable("RecipeIngredients");
                 });
 
             modelBuilder.Entity("NatureTrans.Data.Role", b =>
@@ -249,33 +401,33 @@ namespace NatureTrans.Migrations
                         {
                             id = 1,
                             active = true,
-                            createdAt = new DateTime(2024, 10, 14, 15, 29, 31, 618, DateTimeKind.Local).AddTicks(2691),
+                            createdAt = new DateTime(2024, 11, 11, 13, 55, 50, 848, DateTimeKind.Local).AddTicks(9366),
                             name = "Admin",
-                            updatedAt = new DateTime(2024, 10, 14, 15, 29, 31, 618, DateTimeKind.Local).AddTicks(2693)
+                            updatedAt = new DateTime(2024, 11, 11, 13, 55, 50, 848, DateTimeKind.Local).AddTicks(9368)
                         },
                         new
                         {
                             id = 2,
                             active = true,
-                            createdAt = new DateTime(2024, 10, 14, 15, 29, 31, 618, DateTimeKind.Local).AddTicks(2698),
+                            createdAt = new DateTime(2024, 11, 11, 13, 55, 50, 848, DateTimeKind.Local).AddTicks(9372),
                             name = "Vendor",
-                            updatedAt = new DateTime(2024, 10, 14, 15, 29, 31, 618, DateTimeKind.Local).AddTicks(2699)
+                            updatedAt = new DateTime(2024, 11, 11, 13, 55, 50, 848, DateTimeKind.Local).AddTicks(9373)
                         },
                         new
                         {
                             id = 3,
                             active = true,
-                            createdAt = new DateTime(2024, 10, 14, 15, 29, 31, 618, DateTimeKind.Local).AddTicks(2700),
+                            createdAt = new DateTime(2024, 11, 11, 13, 55, 50, 848, DateTimeKind.Local).AddTicks(9375),
                             name = "Tech",
-                            updatedAt = new DateTime(2024, 10, 14, 15, 29, 31, 618, DateTimeKind.Local).AddTicks(2701)
+                            updatedAt = new DateTime(2024, 11, 11, 13, 55, 50, 848, DateTimeKind.Local).AddTicks(9376)
                         },
                         new
                         {
                             id = 4,
                             active = true,
-                            createdAt = new DateTime(2024, 10, 14, 15, 29, 31, 618, DateTimeKind.Local).AddTicks(2703),
+                            createdAt = new DateTime(2024, 11, 11, 13, 55, 50, 848, DateTimeKind.Local).AddTicks(9377),
                             name = "User",
-                            updatedAt = new DateTime(2024, 10, 14, 15, 29, 31, 618, DateTimeKind.Local).AddTicks(2704)
+                            updatedAt = new DateTime(2024, 11, 11, 13, 55, 50, 848, DateTimeKind.Local).AddTicks(9378)
                         });
                 });
 
@@ -335,6 +487,16 @@ namespace NatureTrans.Migrations
                     b.Navigation("Category");
                 });
 
+            modelBuilder.Entity("NatureTrans.Data.Production", b =>
+                {
+                    b.HasOne("NatureTrans.Data.Recipe", "Recipe")
+                        .WithMany("Productions")
+                        .HasForeignKey("recipeId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.Navigation("Recipe");
+                });
+
             modelBuilder.Entity("NatureTrans.Data.PurchaseOrder", b =>
                 {
                     b.HasOne("NatureTrans.Data.Product", "Product")
@@ -362,6 +524,17 @@ namespace NatureTrans.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("NatureTrans.Data.RecipeIngredient", b =>
+                {
+                    b.HasOne("NatureTrans.Data.Recipe", "Recipe")
+                        .WithMany("RecipeIngredients")
+                        .HasForeignKey("recipeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Recipe");
+                });
+
             modelBuilder.Entity("NatureTrans.Data.User", b =>
                 {
                     b.HasOne("NatureTrans.Data.Role", "Role")
@@ -371,6 +544,13 @@ namespace NatureTrans.Migrations
                         .IsRequired();
 
                     b.Navigation("Role");
+                });
+
+            modelBuilder.Entity("NatureTrans.Data.Recipe", b =>
+                {
+                    b.Navigation("Productions");
+
+                    b.Navigation("RecipeIngredients");
                 });
 #pragma warning restore 612, 618
         }
